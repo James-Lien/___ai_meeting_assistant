@@ -1,4 +1,5 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 import { GoogleGenAI } from '@google/genai';
 
 // Helper for Gemini generation
