@@ -27,6 +27,8 @@ export default function App() {
   const [selectedInstructionId, setSelectedInstructionId] = useState("standard");
   const [customInstruction, setCustomInstruction] = useState(DEFAULT_SYSTEM_INSTRUCTION);
   const [showAdvanceSettings, setShowAdvanceSettings] = useState(false);
+  // New AI provider selector (gemini default)
+  const [selectedProvider, setSelectedProvider] = useState<'gemini' | 'nvidia'>('gemini');
 
   // Output/UI states
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +111,8 @@ export default function App() {
         },
         body: JSON.stringify({
           prompt: transcriptInput,
-          systemInstruction: customInstruction
+          systemInstruction: customInstruction,
+          provider: selectedProvider
         })
       });
 
@@ -209,7 +212,8 @@ ${resultMd}
         },
         body: JSON.stringify({
           prompt: optimizationPrompt,
-          systemInstruction: "你是一個專業的會議助理。請精準閱讀並落實使用者的增補修正指引，修改先前的會議總結，不論新增或移除對象、改進措辭、簡化長度皆能完美落實。請只輸出更新後的 Markdown 報告。"
+          systemInstruction: "你是一個專業的會議助理。請精準閱讀並落實使用者的增補修正指引，修改先前的會議總結，不論新增或移除對象、改進措辭、簡化長度皆能完美落實。請只輸出更新後的 Markdown 報告。",
+          provider: selectedProvider
         })
       });
 
@@ -446,6 +450,18 @@ ${resultMd}
                       className="w-full p-3 font-mono text-xs text-gray-600 bg-slate-50 border border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-hidden leading-relaxed"
                       placeholder="設定 AI 的角色設定。例如：你必須整理成簡報投影片大綱..."
                     />
+                     {/* AI Provider Selector */}
+                     <div className="mt-3 flex items-center gap-2">
+                       <label className="text-xs font-medium text-gray-700">AI 服務提供商：</label>
+                       <select
+                         value={selectedProvider}
+                         onChange={(e) => setSelectedProvider(e.target.value as 'gemini' | 'nvidia')}
+                         className="text-sm border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                       >
+                         <option value="gemini">Google Gemini</option>
+                         <option value="nvidia">NVIDIA</option>
+                       </select>
+                     </div>
                     <p className="text-[10px] text-gray-400 mt-1">
                       ⚠️ 提示：您可以增加額外規定，例如「請將 final deadline 加上顏色強調」或「對敏感資訊進行匿名去標識處理」。
                     </p>
