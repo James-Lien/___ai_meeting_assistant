@@ -450,24 +450,44 @@ ${resultMd}
                       className="w-full p-3 font-mono text-xs text-gray-600 bg-slate-50 border border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-hidden leading-relaxed"
                       placeholder="設定 AI 的角色設定。例如：你必須整理成簡報投影片大綱..."
                     />
-                     {/* AI Provider Selector */}
-                     <div className="mt-3 flex items-center gap-2">
-                       <label className="text-xs font-medium text-gray-700">AI 服務提供商：</label>
-                       <select
-                         value={selectedProvider}
-                         onChange={(e) => setSelectedProvider(e.target.value as 'gemini' | 'nvidia')}
-                         className="text-sm border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                       >
-                         <option value="gemini">Google Gemini</option>
-                         <option value="nvidia">NVIDIA</option>
-                       </select>
-                     </div>
                     <p className="text-[10px] text-gray-400 mt-1">
                       ⚠️ 提示：您可以增加額外規定，例如「請將 final deadline 加上顏色強調」或「對敏感資訊進行匿名去標識處理」。
                     </p>
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* AI Provider Selector */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/80 p-5 rounded-2xl border border-gray-100 shadow-inner">
+              <div className="flex flex-col gap-1">
+                <span className="text-sm font-bold text-gray-800">選擇 AI 服務提供商 (AI Model Provider)</span>
+                <span className="text-[10px] text-gray-500">切換由 Gemini 3.5 或是 NVIDIA Nemotron AI 進行內容分析</span>
+              </div>
+              <div className="flex gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setSelectedProvider('gemini')}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
+                    selectedProvider === 'gemini'
+                      ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-md shadow-indigo-100'
+                      : 'bg-white hover:bg-slate-100 border border-gray-200 text-gray-600'
+                  }`}
+                >
+                  Google Gemini
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedProvider('nvidia')}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
+                    selectedProvider === 'nvidia'
+                      ? 'bg-gradient-to-r from-emerald-600 to-emerald-700 text-white shadow-md shadow-emerald-100'
+                      : 'bg-white hover:bg-slate-100 border border-gray-200 text-gray-600'
+                  }`}
+                >
+                  NVIDIA Nemotron
+                </button>
+              </div>
             </div>
 
             {/* 錯誤資訊 */}
